@@ -1,0 +1,1258 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+  
+  
+    
+    
+  <script src="/lib/pace/pace.min.js?v=1.0.2"></script>
+  <link href="/lib/pace/pace-theme-minimal.min.css?v=1.0.2" rel="stylesheet">
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/qianm.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/qianmax.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/qianmin.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/qianmin.png?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="地图导航,百度地图,Google地图,腾讯地图,高德地图,苹果自带地图," />
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="公司业务需要,最近研究了一下地图导航.以下是在开发中的使用笔记以及遇到的一些问题记录. 由于之前只做过一些简单的定位,导致现在一脸懵瞎,所以,只能慢慢的看文档了. 根据各方面的初步了解,结合公司需求太高,小虾米的我就决定偷懒,不接入三方了,直接跳到本地地图应用中去,然后你爱怎么用怎么用,喜欢哪个地图就用那个.  好了,不扯淡了,进入正题:一、找到需要设置的地图的URL Scheme，配置plist">
+<meta property="og:type" content="article">
+<meta property="og:title" content="iOS调用三方地图实现导航及遇到的一些问题">
+<meta property="og:url" content="http://blog.best-developer.cn/2017/04/12/iOS%E8%B0%83%E7%94%A8%E4%B8%89%E6%96%B9%E5%9C%B0%E5%9B%BE%E5%AE%9E%E7%8E%B0%E5%AF%BC%E8%88%AA%E5%8F%8A%E9%81%87%E5%88%B0%E7%9A%84%E4%B8%80%E4%BA%9B%E9%97%AE%E9%A2%98/">
+<meta property="og:site_name" content="BlackChen&#39;Blog">
+<meta property="og:description" content="公司业务需要,最近研究了一下地图导航.以下是在开发中的使用笔记以及遇到的一些问题记录. 由于之前只做过一些简单的定位,导致现在一脸懵瞎,所以,只能慢慢的看文档了. 根据各方面的初步了解,结合公司需求太高,小虾米的我就决定偷懒,不接入三方了,直接跳到本地地图应用中去,然后你爱怎么用怎么用,喜欢哪个地图就用那个.  好了,不扯淡了,进入正题:一、找到需要设置的地图的URL Scheme，配置plist">
+<meta property="og:locale">
+<meta property="og:image" content="https://github.com/BlackChen/AllImages/blob/master/Markdown_Images/0087DA4144B99DC15E2BB096381A4A2B.png?raw=true">
+<meta property="og:image" content="https://github.com/BlackChen/BlackChen.github.io/blob/master/2017/04/12/iOS%E8%B0%83%E7%94%A8%E4%B8%89%E6%96%B9%E5%9C%B0%E5%9B%BE%E5%AE%9E%E7%8E%B0%E5%AF%BC%E8%88%AA%E5%8F%8A%E9%81%87%E5%88%B0%E7%9A%84%E4%B8%80%E4%BA%9B%E9%97%AE%E9%A2%98/%E5%B1%8F%E5%B9%95%E5%BF%AB%E7%85%A7%202017-04-12%20%E4%B8%8B%E5%8D%885.15.51.png?raw=true">
+<meta property="article:published_time" content="2017-04-12T07:10:29.000Z">
+<meta property="article:modified_time" content="2021-03-24T02:43:41.359Z">
+<meta property="article:author" content="BlackChen">
+<meta property="article:tag" content="地图导航,百度地图,Google地图,腾讯地图,高德地图,苹果自带地图">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://github.com/BlackChen/AllImages/blob/master/Markdown_Images/0087DA4144B99DC15E2BB096381A4A2B.png?raw=true">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '',
+    scheme: 'Pisces',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":true,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://blog.best-developer.cn/2017/04/12/iOS调用三方地图实现导航及遇到的一些问题/"/>
+
+
+
+
+
+<!-- 文章加密访问
+ (function(){
+         if(''){
+             if (prompt('请输入文章密码') !== ''){
+                 alert('密码错误！');
+                 history.back();
+             }
+         }
+     })();
+ -->
+
+  <title>iOS调用三方地图实现导航及遇到的一些问题 | BlackChen'Blog</title>
+  
+
+
+
+
+
+
+
+
+<meta name="generator" content="Hexo 5.2.0"></head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">BlackChen'Blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">心之所向,素履以往.</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/%20" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/%20" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/%20" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/%20" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/%20" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br />
+            
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup search-popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocomplete="off"
+             placeholder="搜索..." spellcheck="false"
+             type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+
+
+    </div>
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+    
+    
+    
+    <div class="post-block">
+      <link itemprop="mainEntityOfPage" href="http://blog.best-developer.cn/2017/04/12/iOS%E8%B0%83%E7%94%A8%E4%B8%89%E6%96%B9%E5%9C%B0%E5%9B%BE%E5%AE%9E%E7%8E%B0%E5%AF%BC%E8%88%AA%E5%8F%8A%E9%81%87%E5%88%B0%E7%9A%84%E4%B8%80%E4%BA%9B%E9%97%AE%E9%A2%98/">
+
+      <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+      <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="BlackChen'Blog">
+    </span>
+
+      
+      <header class="post-header">
+
+        
+        
+        <h1 class="post-title" itemprop="name headline">iOS调用三方地图实现导航及遇到的一些问题</h1>
+        
+
+        <div class="post-meta">
+            <span class="post-time">
+            <!--TODO: 设置置顶图标 -->
+             
+
+              
+                <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-04-12T07:10:29+00:00">
+                2017-04-12
+              </time>
+              
+
+              
+
+              
+          </span>
+
+          
+
+          
+          
+            
+
+            
+            
+
+            
+
+            
+              <div class="post-wordcount">
+              
+                
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-file-word-o"></i>
+                </span>
+                
+                <span class="post-meta-item-text">字数统计&#58;</span>
+              
+                <span title="字数统计">
+                  2.4k
+                </span>
+              
+
+                
+                  <span class="post-meta-divider">|</span>
+                
+
+                
+                  <span class="post-meta-item-icon">
+                  <i class="fa fa-clock-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">阅读时长 &asymp;</span>
+                
+                <span title="阅读时长">
+                  11
+                </span>
+                
+            </div>
+            
+
+            
+        </div>
+      </header>
+      
+
+      
+      
+      
+      <div class="post-body" itemprop="articleBody">
+
+        
+        
+
+      
+        <p>公司业务需要,最近研究了一下地图导航.以下是在开发中的使用笔记以及遇到的一些问题记录.</p>
+<p>由于之前只做过一些简单的定位,导致现在一脸懵瞎,所以,只能慢慢的看文档了.</p>
+<p>根据各方面的初步了解,结合公司需求太高,小虾米的我就决定偷懒,不接入三方了,直接跳到本地地图应用中去,然后你爱怎么用怎么用,喜欢哪个地图就用那个.</p>
+<hr>
+<p>好了,不扯淡了,进入正题:<br><strong>一、找到需要设置的地图的URL Scheme，配置plist文件</strong><br>一些常用的地图的URL Scheme以及他们的官方字段说明链接:</p>
+<blockquote>
+<p>百度地图: baidumap://<br>Google地图: comgooglemaps-x-callback:// 或者 comgooglemaps://<br><a target="_blank" rel="noopener" href="http://lbs.qq.com/uri_v1/guide-route.html">腾讯地图</a>: qqmap://<br>高德地图: iosamap://<br><a target="_blank" rel="noopener" href="https://developer.apple.com/library/content/featuredarticles/iPhoneURLScheme_Reference/MapLinks/MapLinks.html">苹果自带地图</a>: baidumap://</p>
+</blockquote>
+<p><strong>二、检查目标地图应用在手机上有没有安装</strong><br>使用下面的方法判断你是否安装了某个URL Scheme为appurlscheme的APP</p>
+<blockquote>
+<p>//该方法返回一个布尔值,若为真,则该应用在我们手机上已经安装<br>[[UIApplication sharedApplication] canOpenURL:[NSURL URLWithString:@”appurlscheme://“]</p>
+</blockquote>
+<p>示例:</p>
+<blockquote>
+<p>//接下来弹出框的按钮文字的数组<br>        NSMutableArray *array = [NSMutableArray array];<br>            if ([[UIApplication sharedApplication] canOpenURL:[NSURL URLWithString:@”iosamap://“]]) {<br>                [array addObject:@”高德地图”];<br>            }<br>            if ([[UIApplication sharedApplication] canOpenURL:[NSURL URLWithString:@”comgooglemaps://“]]) {<br>                [array addObject:@”Google地图”];<br>            }<br>            if ([[UIApplication sharedApplication] canOpenURL:[NSURL URLWithString:@”baidumap://“]]) {<br>                [array addObject:@”百度地图”];<br>            }<br>            if ([[UIApplication sharedApplication] canOpenURL:[NSURL URLWithString:@”qqmap://“]]) {<br>                [array addObject:@”腾讯地图”];<br>            }<br>            //默认苹果自带地图和取消按钮<br>            [array addObjectsFromArray:@[@”苹果地图”,@”取消”]];</p>
+</blockquote>
+<p><strong>三、配置你想要的弹出框样式</strong><br>弹框样式各有所爱,这里给以个简单的样式,根据之前检测的按钮数组个数添加<br><img src="https://github.com/BlackChen/AllImages/blob/master/Markdown_Images/0087DA4144B99DC15E2BB096381A4A2B.png?raw=true"></p>
+<p><strong>四、跳转到目标地图</strong><br>点击对应的地图时,我们需要通过以下方法转场到对应的地图APP</p>
+<blockquote>
+<p>//appurlscheme:应用URL Scheme<br>//parameter:各个参数,下面的示例为基本配置,如需要更多,则请参考对应的官方文档字段说明<br>NSString *urlString = [[NSString stringWithFormat:@”appurlscheme://parameter] stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];<br>   [[UIApplication sharedApplication] openURL:[NSURL URLWithString:urlString]];</p>
+</blockquote>
+<p>   示例:</p>
+<blockquote>
+<p>CLLocationCoordinate2D trans = CLLocationCoordinate2DMake(39.90868, 116.3956);//假如我们要去这个坐标<br>[self presentViewController:[BCAlertView presentAlertWithTitle:@”” message:@”请选择地图” actionTitles:array preferredStyle:UIAlertControllerStyleActionSheet handler:^(NSUInteger buttonIndex, NSString * _Nonnull buttonTitle) {<br>                [MBProgressHUD showHUDAddTo:self.ViewController Text:buttonTitle animated:YES mode:MBProgressHUDModeText after:2];<br>                if ([buttonTitle isEqualToString:@”高德地图”]) {// ok GCJ-02<br>//                    sourceApplication=%@&amp;backScheme=%@<br>//                    sourceApplication代表你自己APP的名称 会在之后跳回的时候显示出来 所以必须填写 backScheme是你APP的URL Scheme 不填是跳不回来的哟<br>//                    dev=0<br>//                    这里填0就行了 跟上面的gcj02一个意思 1代表wgs84 也用不上<br>                    NSString *urlString = [[NSString stringWithFormat:@”iosamap://navi?sourceApplication=%@&amp;backScheme=%@&amp;lat=%f&amp;lon=%f&amp;dev=0&amp;style=2”,@”球猿”,@”BasketballApp://“,trans.latitude, trans.longitude] stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];<br>      [[UIApplication sharedApplication] openURL:[NSURL URLWithString:urlString]];<br>                }else if([buttonTitle isEqualToString:@”Google地图”]){// 坐标转换,位置不准 GCJ-02<br>//                    x-source=%@&amp;x-success=%@<br>//                    跟高德一样 这里分别代表APP的名称和URL Scheme<br>//                    saddr=<br>//                    这里留空则表示从当前位置触发<br>                    NSString *urlString = [[NSString stringWithFormat:@”comgooglemaps-x-callback://?x-source=%@&amp;x-success=%@?resume=true&amp;daddr=%@&amp;center=%f,%f”,@”球猿”,@”BasketballApp://“, _locationName, gpsCoor.latitude, gpsCoor.longitude] stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];<br>    [[UIApplication sharedApplication] openURL:[NSURL URLWithString:urlString]];<br>                }else if([buttonTitle isEqualToString:@”百度地图”]){//ok BD-09<br>//                    origin=<br>//                    这个是不能被修改的 不然无法把出发位置设置为当前位置<br>//                    destination=latlng:%f,%f|name=目的地<br>//                    name=XXXX name这个字段不能省略 否则导航会失败 而后面的文字则可以随便填<br>//                    coord_type=gcj02<br>//                    coord_type允许的值为bd09ll、gcj02、wgs84 如果你APP的地图SDK用的是百度地图SDK 请填bd09ll 否则 就填gcj02 wgs84你基本是用不上了(关于地图加密这里也不多谈 请自行学习)<br>                    NSString *urlString = [[NSString stringWithFormat:@”baidumap://map/direction?origin=&amp;destination=latlng:%f,%f|name=%@&amp;mode=driving&amp;coord_type=bd09ll”,_coordinatePoit.latitude, _coordinatePoit.longitude, _locationName] stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];<br>                      [[UIApplication sharedApplication] openURL:[NSURL URLWithString:urlString]];<br>                }else if([buttonTitle isEqualToString:@”腾讯地图”]){//<a target="_blank" rel="noopener" href="http://lbs.qq.com/uri_v1/guide-route.html">http://lbs.qq.com/uri_v1/guide-route.html</a><br> NSString *urlString = [[NSString stringWithFormat:@”qqmap://map/routeplan?referer=%@&amp;type=drive&amp;from=我的位置&amp;to=%@&amp;tocoord=%f,%f&amp;coord_type=1&amp;policy=0”,@”球猿”,_locationName, trans.latitude, trans.longitude] stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];<br>  [[UIApplication sharedApplication] openURL:[NSURL URLWithString:urlString]];<br>                }else if([buttonTitle isEqualToString:@”苹果地图”]){//<a target="_blank" rel="noopener" href="https://developer.apple.com/library/content/featuredarticles/iPhoneURLScheme_Reference/MapLinks/MapLinks.html">https://developer.apple.com/library/content/featuredarticles/iPhoneURLScheme_Reference/MapLinks/MapLinks.html</a><br>                    MKMapItem *currentLocation = [MKMapItem mapItemForCurrentLocation];<br> MKMapItem *toLocation = [[MKMapItem alloc] initWithPlacemark:[[MKPlacemark alloc] initWithCoordinate:CLLocationCoordinate2DMake(trans.latitude, trans.longitude) addressDictionary:nil]];<br>    toLocation.name = _locationName;<br>[MKMapItem openMapsWithItems:@[currentLocation, toLocation]                         launchOptions:@{MKLaunchOptionsDirectionsModeKey: MKLaunchOptionsDirectionsModeDriving,<br>                                                   MKLaunchOptionsShowsTrafficKey: [NSNumber numberWithBool:YES]}];<br>                }<br>            }] animated:YES completion:^{<br>            }];</p>
+</blockquote>
+<p><strong>五、回到自己的应用</strong><br>这个问题我暂时不知道怎么弄,目前还只有通过进入地图后的左上角,我们应用名称点击返回<br><strong>六、一些延展</strong><br>到这里基本跳转应该没有问题了,下面是一些功能扩展:</p>
+<p>1、地图坐标转换</p>
+<p>小伙伴们是否发现了一个问题:我么既然做地图导航,那么目的就很简单,最重要的是要让我们的客户精确的定位到目的地,到西安路尽可能近,尽可能节省时间,是吧?</p>
+<p>然而,经过上面的配置后,如果你用的是百度地图的坐标,那么在高德,Google,腾讯以及苹果自带地图上面,地图位置是不是和我们标记或者预想的相差好几条街,有米有?</p>
+<p>所以,强烈建议小伙伴们查看一下下面的文章,普及一下知识:<br><a target="_blank" rel="noopener" href="http://www.jianshu.com/p/abdb35b0ba78">坐标转换知识详解</a></p>
+<p>下面附上我的坐标转换代码(本人用的是百度地图,目前转Google地图还不太精确,有知道的小伙伴请告知^_^)</p>
+<p>备注:不知道是从哪位大神哪搬来的,找不到原文地址了,如果侵权,请联系(qq:1414925741),谢谢.</p>
+<p>.h文件</p>
+<blockquote>
+</blockquote>
+<p>//  Created by Black_Chen_ on 2017/4/12.<br>//  Copyright © 2017年 BlackChen. All rights reserved.<br>//<br> #import &lt;Foundation/Foundation.h&gt;<br>@interface BCLocationTransform : NSObject<br>@property (nonatomic, assign) double latitude;<br>@property (nonatomic, assign) double longitude;<br>-(id)initWithLatitude:(double)latitude andLongitude:(double)longitude;<br>/*<br> 坐标系：<br> WGS-84：是国际标准，GPS坐标（Google Earth使用、或者GPS模块）<br> GCJ-02：中国坐标偏移标准，Google Map、高德、腾讯使用<br> BD-09 ：百度坐标偏移标准，Baidu Map使用<br> */<br>// 从GPS坐标转化到高德坐标<br> -(id)transformFromGPSToGD;<br>// 从高德坐标转化到百度坐标<br> -(id)transformFromGDToBD;<br>// 从百度坐标到高德坐标<br> -(id)transformFromBDToGD;<br>//从高德坐标到GPS坐标<br> -(id)transformFromGDToGPS;<br>// 从百度坐标到GPS坐标<br> -(id)transformFromBDToGPS;<br>@end</p>
+<hr>
+<p>.m文件</p>
+<blockquote>
+</blockquote>
+<p>//  Created by Black_Chen_ on 2017/4/12.<br>//  Copyright © 2017年 BlackChen. All rights reserved.<br> #import “BCLocationTransform.h”<br> #import &lt;CoreLocation/CoreLocation.h&gt;<br>static const double a = 6378245.0;<br>static const double ee = 0.00669342162296594323;<br>static const double pi = M_PI;<br>static const double xPi = M_PI  * 3000.0 / 180.0;<br>@implementation BCLocationTransform<br>-(id)initWithLatitude:(double)latitude andLongitude:(double)longitude {<br>    if (self = [super init]) {<br>        self.latitude = latitude;<br>        self.longitude = longitude;<br>    }<br>    return self;<br>}<br>-(id)transformFromGPSToGD {<br>    CLLocationCoordinate2D coor = [BCLocationTransform transformFromWGSToGCJ:CLLocationCoordinate2DMake(self.latitude, self.longitude)];<br>    return [[BCLocationTransform alloc] initWithLatitude:coor.latitude andLongitude:coor.longitude];<br>}<br>-(id)transformFromGDToBD {<br>    CLLocationCoordinate2D coor = [BCLocationTransform transformFromGCJToBaidu:CLLocationCoordinate2DMake(self.latitude, self.longitude)];<br>    return [[BCLocationTransform alloc] initWithLatitude:coor.latitude andLongitude:coor.longitude];<br>}<br>-(id)transformFromBDToGD {<br>    CLLocationCoordinate2D coor = [BCLocationTransform transformFromBaiduToGCJ:CLLocationCoordinate2DMake(self.latitude, self.longitude)];<br>    return [[BCLocationTransform alloc] initWithLatitude:coor.latitude andLongitude:coor.longitude];<br>}<br>-(id)transformFromGDToGPS {<br>    CLLocationCoordinate2D coor = [BCLocationTransform transformFromGCJToWGS:CLLocationCoordinate2DMake(self.latitude, self.longitude)];<br>    return [[BCLocationTransform alloc] initWithLatitude:coor.latitude andLongitude:coor.longitude];<br>}<br>-(id)transformFromBDToGPS {<br>    //先把百度转化为高德<br>    CLLocationCoordinate2D start_coor = [BCLocationTransform transformFromBaiduToGCJ:CLLocationCoordinate2DMake(self.latitude, self.longitude)];<br>    CLLocationCoordinate2D end_coor = [BCLocationTransform transformFromGCJToWGS:CLLocationCoordinate2DMake(start_coor.latitude, start_coor.longitude)];<br>    return [[BCLocationTransform alloc] initWithLatitude:end_coor.latitude andLongitude:end_coor.longitude];<br>}<br>+(CLLocationCoordinate2D)transformFromWGSToGCJ:(CLLocationCoordinate2D)wgsLoc {<br>    CLLocationCoordinate2D adjustLoc;<br>    if([self isLocationOutOfChina:wgsLoc]) {<br>        adjustLoc = wgsLoc;<br>    }<br>    else {<br>        double adjustLat = [self transformLatWithX:wgsLoc.longitude - 105.0 withY:wgsLoc.latitude - 35.0];<br>        double adjustLon = [self transformLonWithX:wgsLoc.longitude - 105.0 withY:wgsLoc.latitude - 35.0];<br>        long double radLat = wgsLoc.latitude / 180.0 * pi;<br>        long double magic = sin(radLat);<br>        magic = 1 - ee * magic * magic;<br>        long double sqrtMagic = sqrt(magic);<br>        adjustLat = (adjustLat * 180.0) / ((a * (1 - ee)) / (magic * sqrtMagic) * pi);<br>        adjustLon = (adjustLon * 180.0) / (a / sqrtMagic * cos(radLat) * pi);<br>        adjustLoc.latitude = wgsLoc.latitude + adjustLat;<br>        adjustLoc.longitude = wgsLoc.longitude + adjustLon;<br>    }<br>    return adjustLoc;<br>}<br> +(double)transformLatWithX:(double)x withY:(double)y {<br>    double lat = -100.0 + 2.0 * x + 3.0 * y + 0.2 * y * y + 0.1 * x * y + 0.2 * sqrt(fabs(x));<br>    lat += (20.0 * sin(6.0 * x * pi) + 20.0 *sin(2.0 * x * pi)) * 2.0 / 3.0;<br>    lat += (20.0 * sin(y * pi) + 40.0 * sin(y / 3.0 * pi)) * 2.0 / 3.0;<br>    lat += (160.0 * sin(y / 12.0 * pi) + 320 * sin(y * pi / 30.0)) * 2.0 / 3.0;<br>    return lat;<br>}<br> +(double)transformLonWithX:(double)x withY:(double)y {<br>    double lon = 300.0 + x + 2.0 * y + 0.1 * x * x + 0.1 * x * y + 0.1 * sqrt(fabs(x));<br>    lon += (20.0 * sin(6.0 * x * pi) + 20.0 * sin(2.0 * x * pi)) * 2.0 / 3.0;<br>    lon += (20.0 * sin(x * pi) + 40.0 * sin(x / 3.0 * pi)) * 2.0 / 3.0;<br>    lon += (150.0 * sin(x / 12.0 * pi) + 300.0 * sin(x / 30.0 * pi)) * 2.0 / 3.0;<br>    return lon;<br>}<br> +(CLLocationCoordinate2D)transformFromGCJToBaidu:(CLLocationCoordinate2D)p {<br>    long double z = sqrt(p.longitude * p.longitude + p.latitude * p.latitude) + 0.00002 * sqrt(p.latitude * pi);<br>    long double theta = atan2(p.latitude, p.longitude) + 0.000003 * cos(p.longitude * pi);<br>    CLLocationCoordinate2D geoPoint;<br>    geoPoint.latitude  = (z * sin(theta) + 0.006);<br>    geoPoint.longitude = (z * cos(theta) + 0.0065);<br>    return geoPoint;<br>}<br> +(CLLocationCoordinate2D)transformFromBaiduToGCJ:(CLLocationCoordinate2D)p {<br>    double x = p.longitude - 0.0065, y = p.latitude - 0.006;<br>    double z = sqrt(x * x + y * y) - 0.00002 * sin(y * xPi);<br>    double theta = atan2(y, x) - 0.000003 * cos(x * xPi);<br>    CLLocationCoordinate2D geoPoint;<br>    geoPoint.latitude  = z * sin(theta);<br>    geoPoint.longitude = z * cos(theta);<br>    return geoPoint;<br>}<br>+(CLLocationCoordinate2D)transformFromGCJToWGS:(CLLocationCoordinate2D)p {<br>    double threshold = 0.00001;<br>    // The boundary<br>    double minLat = p.latitude - 0.5;<br>    double maxLat = p.latitude + 0.5;<br>    double minLng = p.longitude - 0.5;<br>    double maxLng = p.longitude + 0.5;<br>    double delta = 1;<br>    int maxIteration = 30;<br>    // Binary search<br>    while(true) {<br>        CLLocationCoordinate2D leftBottom  = [[self class] transformFromWGSToGCJ:(CLLocationCoordinate2D){.latitude = minLat,.longitude = minLng}];<br>        CLLocationCoordinate2D rightBottom = [[self class] transformFromWGSToGCJ:(CLLocationCoordinate2D){.latitude = minLat,.longitude = maxLng}];<br>        CLLocationCoordinate2D leftUp      = [[self class] transformFromWGSToGCJ:(CLLocationCoordinate2D){.latitude = maxLat,.longitude = minLng}];<br>        CLLocationCoordinate2D midPoint    = [[self class] transformFromWGSToGCJ:(CLLocationCoordinate2D){.latitude = ((minLat + maxLat) / 2),.longitude = ((minLng + maxLng) / 2)}];<br>        delta = fabs(midPoint.latitude - p.latitude) + fabs(midPoint.longitude - p.longitude);<br>        if(maxIteration– &lt;= 0 || delta &lt;= threshold) {<br>            return (CLLocationCoordinate2D){.latitude = ((minLat + maxLat) / 2),.longitude = ((minLng + maxLng) / 2)};<br>        }<br>        if(isContains(p, leftBottom, midPoint)) {<br>            maxLat = (minLat + maxLat) / 2;<br>            maxLng = (minLng + maxLng) / 2;<br>        } else if(isContains(p, rightBottom, midPoint)) {<br>            maxLat = (minLat + maxLat) / 2;<br>            minLng = (minLng + maxLng) / 2;<br>        } else if(isContains(p, leftUp, midPoint)) {<br>            minLat = (minLat + maxLat) / 2;<br>            maxLng = (minLng + maxLng) / 2;<br>        } else {<br>            minLat = (minLat + maxLat) / 2;<br>            minLng = (minLng + maxLng) / 2;<br>        }<br>    }<br>}<br> #pragma mark - 判断某个点point是否在p1和p2之间<br>static bool isContains(CLLocationCoordinate2D point, CLLocationCoordinate2D p1, CLLocationCoordinate2D p2) {<br>    return (point.latitude &gt;= MIN(p1.latitude, p2.latitude) &amp;&amp; point.latitude &lt;= MAX(p1.latitude, p2.latitude)) &amp;&amp; (point.longitude &gt;= MIN(p1.longitude,p2.longitude) &amp;&amp; point.longitude &lt;= MAX(p1.longitude, p2.longitude));<br>}<br> #pragma mark - 判断是不是在中国<br>+(BOOL)isLocationOutOfChina:(CLLocationCoordinate2D)location {<br>    if (location.longitude &lt; 72.004 || location.longitude &gt; 137.8347 || location.latitude &lt; 0.8293 || location.latitude &gt; 55.8271)<br>        return YES;<br>    return NO;<br>}<br>@end</p>
+<hr>
+<p>使用:</p>
+<blockquote>
+<p>//初始化坐标<br>BCLocationTransform *trans = [[BCLocationTransform alloc]initWithLatitude:_coordinatePoit.latitude andLongitude:_coordinatePoit.longitude];<br>//转换坐标<br>trans = [trans transformFromBDToGD];            </p>
+</blockquote>
+<p><strong>七、留下来的问题</strong><br>//TODO:待添加</p>
+<h4 id="sdasdnaksdjk"><a href="#sdasdnaksdjk" class="headerlink" title="sdasdnaksdjk"></a>sdasdnaksdjk</h4><p><img src="https://github.com/BlackChen/BlackChen.github.io/blob/master/2017/04/12/iOS%E8%B0%83%E7%94%A8%E4%B8%89%E6%96%B9%E5%9C%B0%E5%9B%BE%E5%AE%9E%E7%8E%B0%E5%AF%BC%E8%88%AA%E5%8F%8A%E9%81%87%E5%88%B0%E7%9A%84%E4%B8%80%E4%BA%9B%E9%97%AE%E9%A2%98/%E5%B1%8F%E5%B9%95%E5%BF%AB%E7%85%A7%202017-04-12%20%E4%B8%8B%E5%8D%885.15.51.png?raw=true" alt="图片问价"></p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            
+            <a href="/tags/%E5%9C%B0%E5%9B%BE%E5%AF%BC%E8%88%AA-%E7%99%BE%E5%BA%A6%E5%9C%B0%E5%9B%BE-Google%E5%9C%B0%E5%9B%BE-%E8%85%BE%E8%AE%AF%E5%9C%B0%E5%9B%BE-%E9%AB%98%E5%BE%B7%E5%9C%B0%E5%9B%BE-%E8%8B%B9%E6%9E%9C%E8%87%AA%E5%B8%A6%E5%9C%B0%E5%9B%BE/" rel="tag"><i class="fa fa-tag"></i> 地图导航,百度地图,Google地图,腾讯地图,高德地图,苹果自带地图</a>
+          
+        </div>
+      
+
+      
+        
+          <div class="post-widgets">
+            
+
+            
+
+            
+              
+              <div id="needsharebutton-postbottom">
+            <span class="btn">
+              <i class="fa fa-share-alt" aria-hidden="true"></i>
+            </span>
+              </div>
+            
+          </div>
+        
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2016/10/24/%E7%9C%9F%E6%9C%BA%E8%B0%83%E8%AF%95%E9%94%99%E8%AF%AF%E9%9B%86%E9%94%A6/" rel="next" title="真机调试错误集锦">
+                <i class="fa fa-chevron-left"></i> 真机调试错误集锦
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2017/04/21/Mac%E5%B8%B8%E7%94%A8%E8%BD%AF%E4%BB%B6%E6%8A%80%E5%B7%A7%E5%A4%87%E4%BB%BD/" rel="prev" title="Mac常用软件技巧备份">
+                Mac常用软件技巧备份 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+    </div>
+    
+    
+    
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name"></p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/%20%7C%7C%20archive">
+              
+                  <span class="site-state-item-count">13</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                
+                  <span class="site-state-item-count">16</span>
+                  <span class="site-state-item-name">标签</span>
+                
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#sdasdnaksdjk"><span class="nav-number">1.</span> <span class="nav-text">sdasdnaksdjk</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    <!-- TODO:最近文章1 -->
+    
+    
+      <div class="links-of-blogroll motion-element links-of-blogroll-block">
+        <div class="links-of-blogroll-title">
+          <!-- modify icon to fire by szw -->
+          <i class="fa fa-history fa-" aria-hidden="true"></i>
+          近期文章
+        </div>
+        <ul class="links-of-blogroll-list">
+          
+          
+            <li class="recent_posts_li">
+              <a href="/2021/03/24/Tomcat%E7%9B%B8%E5%85%B3/" title="" target="_blank"></a>
+            </li>
+          
+            <li class="recent_posts_li">
+              <a href="/2021/03/24/hello-world/" title="Hello World" target="_blank">Hello World</a>
+            </li>
+          
+            <li class="recent_posts_li">
+              <a href="/2021/03/24/MySQL%E7%9B%B8%E5%85%B3/" title="" target="_blank"></a>
+            </li>
+          
+            <li class="recent_posts_li">
+              <a href="/2020/12/17/Spring%20Data%20JPA%20%E5%9F%BA%E6%9C%AC%E4%BD%BF%E7%94%A8/" title="Spring Data JPA 基本使用" target="_blank">Spring Data JPA 基本使用</a>
+            </li>
+          
+            <li class="recent_posts_li">
+              <a href="/2020/12/14/GitHub%20Actions%E8%87%AA%E5%8A%A8%E9%83%A8%E7%BD%B2Hexo%E5%8D%9A%E5%AE%A2%E5%B0%8F%E7%BB%93/" title="GitHub Actions自动部署Hexo博客小结" target="_blank">GitHub Actions自动部署Hexo博客小结</a>
+            </li>
+          
+        </ul>
+      </div>
+    
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; 2016 &mdash; <span itemprop="copyrightYear">2021</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">BCSoft</span>
+
+  
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-area-chart"></i>
+    </span>
+    
+      <span class="post-meta-item-text">Site words total count&#58;</span>
+    
+    <span title="Site words total count">5.9k</span>
+  
+</div>
+<!--TODO: 网页底部强力驱动等 -->
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Pisces</a> v5.1.4</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+          <span id="scrollpercent"><span>0</span>%</span>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/canvas-nest/canvas-nest.min.js"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.4"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    var isXml = true;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length === 0) {
+      search_path = "search.xml";
+    } else if (/json$/i.test(search_path)) {
+      isXml = false;
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    var onPopupClose = function (e) {
+      $('.popup').hide();
+      $('#local-search-input').val('');
+      $('.search-result-list').remove();
+      $('#no-result').remove();
+      $(".local-search-pop-overlay").remove();
+      $('body').css('overflow', '');
+    }
+
+    function proceedsearch() {
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay"></div>')
+        .css('overflow', 'hidden');
+      $('.search-popup-overlay').click(onPopupClose);
+      $('.popup').toggle();
+      var $localSearchInput = $('#local-search-input');
+      $localSearchInput.attr("autocapitalize", "none");
+      $localSearchInput.attr("autocorrect", "off");
+      $localSearchInput.focus();
+    }
+
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+
+      // start loading animation
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay">' +
+          '<div id="search-loading-icon">' +
+          '<i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>' +
+          '</div>' +
+          '</div>')
+        .css('overflow', 'hidden');
+      $("#search-loading-icon").css('margin', '20% auto 0 auto').css('text-align', 'center');
+
+      $.ajax({
+        url: path,
+        dataType: isXml ? "xml" : "json",
+        async: true,
+        success: function(res) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = isXml ? $("entry", res).map(function() {
+            return {
+              title: $("title", this).text(),
+              content: $("content",this).text(),
+              url: $("url" , this).text()
+            };
+          }).get() : res;
+          var input = document.getElementById(search_id);
+          var resultContent = document.getElementById(content_id);
+          var inputEventFunction = function() {
+            var searchText = input.value.trim().toLowerCase();
+            var keywords = searchText.split(/[\s\-]+/);
+            if (keywords.length > 1) {
+              keywords.push(searchText);
+            }
+            var resultItems = [];
+            if (searchText.length > 0) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var hitCount = 0;
+                var searchTextCount = 0;
+                var title = data.title.trim();
+                var titleInLowerCase = title.toLowerCase();
+                var content = data.content.trim().replace(/<[^>]+>/g,"");
+                var contentInLowerCase = content.toLowerCase();
+                var articleUrl = decodeURIComponent(data.url);
+                var indexOfTitle = [];
+                var indexOfContent = [];
+                // only match articles with not empty titles
+                if(title != '') {
+                  keywords.forEach(function(keyword) {
+                    function getIndexByWord(word, text, caseSensitive) {
+                      var wordLen = word.length;
+                      if (wordLen === 0) {
+                        return [];
+                      }
+                      var startPosition = 0, position = [], index = [];
+                      if (!caseSensitive) {
+                        text = text.toLowerCase();
+                        word = word.toLowerCase();
+                      }
+                      while ((position = text.indexOf(word, startPosition)) > -1) {
+                        index.push({position: position, word: word});
+                        startPosition = position + wordLen;
+                      }
+                      return index;
+                    }
+
+                    indexOfTitle = indexOfTitle.concat(getIndexByWord(keyword, titleInLowerCase, false));
+                    indexOfContent = indexOfContent.concat(getIndexByWord(keyword, contentInLowerCase, false));
+                  });
+                  if (indexOfTitle.length > 0 || indexOfContent.length > 0) {
+                    isMatch = true;
+                    hitCount = indexOfTitle.length + indexOfContent.length;
+                  }
+                }
+
+                // show search results
+
+                if (isMatch) {
+                  // sort index by position of keyword
+
+                  [indexOfTitle, indexOfContent].forEach(function (index) {
+                    index.sort(function (itemLeft, itemRight) {
+                      if (itemRight.position !== itemLeft.position) {
+                        return itemRight.position - itemLeft.position;
+                      } else {
+                        return itemLeft.word.length - itemRight.word.length;
+                      }
+                    });
+                  });
+
+                  // merge hits into slices
+
+                  function mergeIntoSlice(text, start, end, index) {
+                    var item = index[index.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    var hits = [];
+                    var searchTextCountInSlice = 0;
+                    while (position + word.length <= end && index.length != 0) {
+                      if (word === searchText) {
+                        searchTextCountInSlice++;
+                      }
+                      hits.push({position: position, length: word.length});
+                      var wordEnd = position + word.length;
+
+                      // move to next position of hit
+
+                      index.pop();
+                      while (index.length != 0) {
+                        item = index[index.length - 1];
+                        position = item.position;
+                        word = item.word;
+                        if (wordEnd > position) {
+                          index.pop();
+                        } else {
+                          break;
+                        }
+                      }
+                    }
+                    searchTextCount += searchTextCountInSlice;
+                    return {
+                      hits: hits,
+                      start: start,
+                      end: end,
+                      searchTextCount: searchTextCountInSlice
+                    };
+                  }
+
+                  var slicesOfTitle = [];
+                  if (indexOfTitle.length != 0) {
+                    slicesOfTitle.push(mergeIntoSlice(title, 0, title.length, indexOfTitle));
+                  }
+
+                  var slicesOfContent = [];
+                  while (indexOfContent.length != 0) {
+                    var item = indexOfContent[indexOfContent.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    // cut out 100 characters
+                    var start = position - 20;
+                    var end = position + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if (end < position + word.length) {
+                      end = position + word.length;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    slicesOfContent.push(mergeIntoSlice(content, start, end, indexOfContent));
+                  }
+
+                  // sort slices in content by search text's count and hits' count
+
+                  slicesOfContent.sort(function (sliceLeft, sliceRight) {
+                    if (sliceLeft.searchTextCount !== sliceRight.searchTextCount) {
+                      return sliceRight.searchTextCount - sliceLeft.searchTextCount;
+                    } else if (sliceLeft.hits.length !== sliceRight.hits.length) {
+                      return sliceRight.hits.length - sliceLeft.hits.length;
+                    } else {
+                      return sliceLeft.start - sliceRight.start;
+                    }
+                  });
+
+                  // select top N slices in content
+
+                  var upperBound = parseInt('1');
+                  if (upperBound >= 0) {
+                    slicesOfContent = slicesOfContent.slice(0, upperBound);
+                  }
+
+                  // highlight title and content
+
+                  function highlightKeyword(text, slice) {
+                    var result = '';
+                    var prevEnd = slice.start;
+                    slice.hits.forEach(function (hit) {
+                      result += text.substring(prevEnd, hit.position);
+                      var end = hit.position + hit.length;
+                      result += '<b class="search-keyword">' + text.substring(hit.position, end) + '</b>';
+                      prevEnd = end;
+                    });
+                    result += text.substring(prevEnd, slice.end);
+                    return result;
+                  }
+
+                  var resultItem = '';
+
+                  if (slicesOfTitle.length != 0) {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + highlightKeyword(title, slicesOfTitle[0]) + "</a>";
+                  } else {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + title + "</a>";
+                  }
+
+                  slicesOfContent.forEach(function (slice) {
+                    resultItem += "<a href='" + articleUrl + "'>" +
+                      "<p class=\"search-result\">" + highlightKeyword(content, slice) +
+                      "...</p>" + "</a>";
+                  });
+
+                  resultItem += "</li>";
+                  resultItems.push({
+                    item: resultItem,
+                    searchTextCount: searchTextCount,
+                    hitCount: hitCount,
+                    id: resultItems.length
+                  });
+                }
+              })
+            };
+            if (keywords.length === 1 && keywords[0] === "") {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>'
+            } else if (resultItems.length === 0) {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>'
+            } else {
+              resultItems.sort(function (resultLeft, resultRight) {
+                if (resultLeft.searchTextCount !== resultRight.searchTextCount) {
+                  return resultRight.searchTextCount - resultLeft.searchTextCount;
+                } else if (resultLeft.hitCount !== resultRight.hitCount) {
+                  return resultRight.hitCount - resultLeft.hitCount;
+                } else {
+                  return resultRight.id - resultLeft.id;
+                }
+              });
+              var searchResultList = '<ul class=\"search-result-list\">';
+              resultItems.forEach(function (result) {
+                searchResultList += result.item;
+              })
+              searchResultList += "</ul>";
+              resultContent.innerHTML = searchResultList;
+            }
+          }
+
+          if ('auto' === 'auto') {
+            input.addEventListener('input', inputEventFunction);
+          } else {
+            $('.search-icon').click(inputEventFunction);
+            input.addEventListener('keypress', function (event) {
+              if (event.keyCode === 13) {
+                inputEventFunction();
+              }
+            });
+          }
+
+          // remove loading animation
+          $(".local-search-pop-overlay").remove();
+          $('body').css('overflow', '');
+
+          proceedsearch();
+        }
+      });
+    }
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched === false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(onPopupClose);
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+    $(document).on('keyup', function (event) {
+      var shouldDismissSearchPopup = event.which === 27 &&
+        $('.search-popup').is(':visible');
+      if (shouldDismissSearchPopup) {
+        onPopupClose();
+      }
+    });
+  </script>
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+  
+  <link rel="stylesheet" href="/lib/needsharebutton/needsharebutton.css">
+
+  
+  
+  <script src="/lib/needsharebutton/needsharebutton.js"></script>
+
+  <script>
+    
+      pbOptions = {};
+      
+          pbOptions.iconStyle = "box";
+      
+          pbOptions.boxForm = "horizontal";
+      
+          pbOptions.position = "bottomCenter";
+      
+          pbOptions.networks = "Weibo,Wechat,Douban,QQZone,Twitter,Facebook";
+      
+      new needShareButton('#needsharebutton-postbottom', pbOptions);
+    
+    
+  </script>
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

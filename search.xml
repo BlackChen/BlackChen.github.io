@@ -1,0 +1,301 @@
+<?xml version="1.0" encoding="utf-8"?>
+<search>
+  <entry>
+    <title>Spring Data JPA 基本使用</title>
+    <url>/2020/12/17/Spring%20Data%20JPA%20%E5%9F%BA%E6%9C%AC%E4%BD%BF%E7%94%A8/</url>
+    <content><![CDATA[<h2 id=""><a href="#" class="headerlink" title=""></a></h2><p>参考文档:</p>
+<ul>
+<li><a href="https://www.jianshu.com/p/6e50ff8d2b04">基本使用</a></li>
+</ul>
+]]></content>
+      <tags>
+        <tag>Spring Boot</tag>
+        <tag>JPA</tag>
+        <tag>SQL</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>关于苹果M1和Intel等芯片的区别</title>
+    <url>/2020/12/13/%E5%85%B3%E4%BA%8E%E8%8B%B9%E6%9E%9CM1%E5%92%8CIntel%E7%AD%89%E8%8A%AF%E7%89%87%E7%9A%84%E5%8C%BA%E5%88%AB/</url>
+    <content><![CDATA[<p>2020年11月11日，“苹果正式发布第一款用于Mac的自研电脑芯片M1。苹果公司表示，M1芯片实现了巨大飞跃，它能够让Mac成为完全不同的产品。这颗芯片采用5纳米制程工艺，CPU、GPU、缓存集成在一起，其中包含160亿个晶体管。虽然股价没涨，市场反应也不温不火，但是，苹果变革的暗流，已经汹涌袭来。</p>
+<p>从X86转向ARM，对苹果来说到底意味着什么，是否会重蹈 <a href="https://baike.baidu.com/item/Surface%20RT/12013034?fr=aladdin">Surface RT</a> 的覆辙？我试图就自己的理解跟大家分享一下，也包含一些初步的购买建议，如有偏颇，欢迎讨论指正~<br>M1芯片到底好在哪里？</p>
+<h2 id="本质区别"><a href="#本质区别" class="headerlink" title="本质区别"></a>本质区别</h2><p>Intel X86基于CISC，M1芯片基于RISC。<br>什么是CISC和RISC？咱用比较通俗（雾）的语言说一下：</p>
+<h3 id="1、CISC"><a href="#1、CISC" class="headerlink" title="1、CISC"></a>1、CISC</h3><p>即Complex Instruction Set Computer——复杂指令系统计算机</p>
+<ul>
+<li>典型范例：<br>Intel酷睿<br>AMD锐龙</li>
+</ul>
+<p>大家手里现存的个人计算机处理器，包括Intel Yes、AMD Yes什么的，都是基于CISC。CISC拥有很多复杂的指令，这些指令可以专门去处理一些复杂任务。</p>
+<p>比如有一些指令是“消防员”，他们去灭火很专业，但缺点是如果交通堵塞，消防员就无能为力，必须得派交警过去，所以CISC的特点是“专事专办”。那你该问了，要是着火的房子太多消防员管不过来怎么办？抱歉，只能一个一个来，交警也只能干看着；</p>
+<h3 id="2、RISC"><a href="#2、RISC" class="headerlink" title="2、RISC"></a>2、RISC</h3><p>即Reduced Instruction Set Computer——精简指令集计算机。</p>
+<ul>
+<li><p>典型范例：<br>高通骁龙<br>三星Exynos<br>苹果A系列</p>
+<p>  苹果M1就是基于RISC。RISC只有一些简单指令。</p>
+</li>
+</ul>
+<p>就好比这个城市里既没有消防员、也没有交警，只有广大的平头老百姓。当要解决简单任务时，每个人都可以上阵干活，因此速度更快。但当房子着火时（要解决复杂任务时），由于没有消防员，所以部分群众必须团结起来灭火，他们不够专业，只能依靠团队和协作，费了很多周章还是能把火给灭了，但付出的劳动和精力比专业消防员多很多。</p>
+<p>当我们使用电脑的时候，需要解决的通常都是复杂问题，CISC支持很多高级的指令，可以高效处理特殊任务；而RISC只有一些常用指令，当你要处理复杂事项的时候，RISC需要把常用指令组合到一起才能完成。举个通俗的例子，当我们要命令一个人“吃饭”的时候，CISC会直接告诉他：<code>吃饭</code>！而RISC没有“吃饭”这个高级指令，只会告诉他：<code>拿起勺子</code>，<code>挖一勺米饭</code>，<code>放到嘴里</code>。</p>
+<p>因此，由于指令集复杂程度上的先天劣势，通常来讲RISC的计算能力是赶不上CISC的，这是在苹果正式推出M1之前外界质疑的焦点所在：“用手机芯片跑电脑系统，真的不是开玩笑嘛？”</p>
+<p>但正因为指令集简单，RISC也具备了先天优势——芯片结构简单、单元电路少。</p>
+<p>所以功耗很低，所以手机、平板等小型移动终端都在使用RISC处理器，通常只要靠热传导就可以及时带走芯片运行所产生的热量。而无论Intel还是AMD，只要是电脑就都得靠风冷或水冷散热，因为它们都是基于CISC平台（不过也有例外，像是12吋MacBook这种比较奇葩的被动散热机型，也是通过采用超低电压版CPU才实现的，因此性能被大幅削弱，还有一些固定用途的商用计算机也是如此）。</p>
+<p>不仅如此，RISC处理器还具备电路易于设计、迭代快、成本低等优势。</p>
+<p>实际上，RISC概念的提出者——John Cocke早在46年前就发现，计算机中约20%的指令承担了80%的工作。CISC现如今面临RISC的挑战并不是偶然，只是时间问题。</p>
+<h2 id="优势"><a href="#优势" class="headerlink" title="优势"></a>优势</h2><p>当认识到RISC和CISC的区别后，我们便不难理解基于ARM架构M1芯片的优势所在：<br><a href="http://www.elecfans.com/d/1387216.html">优势</a></p>
+<h2 id="重要意义"><a href="#重要意义" class="headerlink" title="重要意义"></a>重要意义</h2><p><a href="http://www.elecfans.com/d/1390411.html">重要意义</a></p>
+<p>参考文档：</p>
+<ul>
+<li><a href="https://zhidao.baidu.com/question/1182387545020139859.html?qbl=relate_question_7&word=m1%20intel">底层区别</a></li>
+<li><a href="http://www.elecfans.com/d/1390411.html">重要意义</a></li>
+</ul>
+]]></content>
+      <tags>
+        <tag>M1</tag>
+        <tag>Intel</tag>
+        <tag>X86</tag>
+        <tag>ARM</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title></title>
+    <url>/2021/03/24/Tomcat%E7%9B%B8%E5%85%B3/</url>
+    <content><![CDATA[<p>Tomcat相关</p>
+<h1 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h1><h1 id="开机启动"><a href="#开机启动" class="headerlink" title="开机启动"></a><a href="https://jingyan.baidu.com/article/6525d4b1382f0aac7d2e9421.html">开机启动</a></h1>]]></content>
+  </entry>
+  <entry>
+    <title>Hello World</title>
+    <url>/2021/03/24/hello-world/</url>
+    <content><![CDATA[<p>Welcome to <a href="https://hexo.io/">Hexo</a>! This is your very first post. Check <a href="https://hexo.io/docs/">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="https://hexo.io/docs/troubleshooting.html">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues">GitHub</a>.</p>
+<h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo new <span class="string">&quot;My New Post&quot;</span></span><br></pre></td></tr></table></figure>
+
+<p>More info: <a href="https://hexo.io/docs/writing.html">Writing</a></p>
+<h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo server</span><br></pre></td></tr></table></figure>
+
+<p>More info: <a href="https://hexo.io/docs/server.html">Server</a></p>
+<h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo generate</span><br></pre></td></tr></table></figure>
+
+<p>More info: <a href="https://hexo.io/docs/generating.html">Generating</a></p>
+<h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo deploy</span><br></pre></td></tr></table></figure>
+
+<p>More info: <a href="https://hexo.io/docs/deployment.html">Deployment</a></p>
+]]></content>
+  </entry>
+  <entry>
+    <title></title>
+    <url>/2021/03/24/MySQL%E7%9B%B8%E5%85%B3/</url>
+    <content><![CDATA[<p>MySQL</p>
+<h1 id="MySQL安装"><a href="#MySQL安装" class="headerlink" title="MySQL安装"></a>MySQL安装</h1><h2 id="rpm安装"><a href="#rpm安装" class="headerlink" title="rpm安装"></a>rpm安装</h2><h2 id="yum安装"><a href="#yum安装" class="headerlink" title="yum安装"></a>yum安装</h2><h2 id="压缩包安装"><a href="#压缩包安装" class="headerlink" title="压缩包安装"></a>压缩包安装</h2><p>安装包：<a href="https://cdn.mysql.com/archives/mysql-5.6/mysql-5.6.51-linux-glibc2.12-x86_64.tar.gz">https://cdn.mysql.com/archives/mysql-5.6/mysql-5.6.51-linux-glibc2.12-x86_64.tar.gz</a></p>
+<h1 id="MySQL卸载"><a href="#MySQL卸载" class="headerlink" title="MySQL卸载"></a>MySQL卸载</h1><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">&#x2F;&#x2F;rpm包安装方式卸载</span><br><span class="line">查包名：rpm -qa|grep -i mysql</span><br><span class="line">删除命令：rpm -e –nodeps 包名</span><br><span class="line"> </span><br><span class="line">&#x2F;&#x2F;yum安装方式下载</span><br><span class="line">1.查看已安装的mysql</span><br><span class="line">命令：rpm -qa | grep -i mysql</span><br><span class="line">2.卸载mysql</span><br><span class="line">命令：yum remove mysql-community-server-5.6.36-2.el7.x86_64</span><br><span class="line">查看mysql的其它依赖：rpm -qa | grep -i mysql</span><br><span class="line"> </span><br><span class="line">&#x2F;&#x2F;卸载依赖</span><br><span class="line">yum remove mysql-libs</span><br><span class="line">yum remove mysql-server</span><br><span class="line">yum remove perl-DBD-MySQL</span><br><span class="line">yum remove mysql</span><br><span class="line">————————————————</span><br><span class="line">版权声明：本文为CSDN博主「回归（10166005）」的原创文章，遵循CC 4.0 BY-SA版权协议，转载请附上原文出处链接及本声明。</span><br><span class="line">原文链接：https:&#x2F;&#x2F;blog.csdn.net&#x2F;qq_41829904&#x2F;article&#x2F;details&#x2F;92966943</span><br></pre></td></tr></table></figure>
+
+<h1 id="MySQL常见错误"><a href="#MySQL常见错误" class="headerlink" title="MySQL常见错误"></a>MySQL常见错误</h1><h2 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h2><ul>
+<li><p><a href="https://www.cnblogs.com/gxs-future/p/13600990.html">Found option without preceding group in config file /etc/my.cnf at line 1!</a></p>
+</li>
+<li><p><em>error while loading shared libraries: libaio.so.1</em></p>
+</li>
+</ul>
+<p>场景：<br>在CentOS7.6系统下安装Mysql5.7时，初始化的时候报错：</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">mysqld: error while loading shared libraries: libaio.so.1:cannot open shared object file: No such file or directory</span><br></pre></td></tr></table></figure>
+<p>解决：<br>因为是新的系统，并没有安装所需要的依赖包</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">yum install -y libaio</span><br></pre></td></tr></table></figure>
+
+<p>然后重新初始化即可。</p>
+]]></content>
+  </entry>
+  <entry>
+    <title>GitHub Actions自动部署Hexo博客小结</title>
+    <url>/2020/12/14/GitHub%20Actions%E8%87%AA%E5%8A%A8%E9%83%A8%E7%BD%B2Hexo%E5%8D%9A%E5%AE%A2%E5%B0%8F%E7%BB%93/</url>
+    <content><![CDATA[<h2 id="一、关于CICD"><a href="#一、关于CICD" class="headerlink" title="一、关于CICD"></a>一、关于CICD</h2><p>传送门:<a href="https://blog.csdn.net/weixin_44903147/article/details/96291588">什么是CI/CD/CD</a></p>
+<h2 id="二、Hexo"><a href="#二、Hexo" class="headerlink" title="二、Hexo"></a>二、Hexo</h2><h3 id="2-1-博客搭建"><a href="#2-1-博客搭建" class="headerlink" title="2.1 博客搭建"></a>2.1 博客搭建</h3><ul>
+<li><a href="https://hexo.io/zh-cn/docs/">Hexo官方文档</a></li>
+<li><a href="https://segmentfault.com/a/1190000017986794">搭建总结</a></li>
+</ul>
+<h3 id="2-2-博客主题"><a href="#2-2-博客主题" class="headerlink" title="2.2 博客主题"></a>2.2 博客主题</h3><ul>
+<li><a href="http://theme-next.iissnan.com/theme-settings.html">NexT 主题配置 官方</a></li>
+<li><a href="https://blog.csdn.net/as480133937/article/details/100138838/">Hexo-Next 主题博客个性化配置</a></li>
+</ul>
+<h2 id="三、自动部署"><a href="#三、自动部署" class="headerlink" title="三、自动部署"></a>三、自动部署</h2><h3 id="3-1-GitHub-Actions部署博客"><a href="#3-1-GitHub-Actions部署博客" class="headerlink" title="3.1 GitHub Actions部署博客"></a>3.1 GitHub Actions部署博客</h3><p><a href="https://blog.csdn.net/xinruodingshui/article/details/105499161">使用GitHub Actions自动部署</a><br>注意:Deploy key添加到个人或者博客源码的 settings 里面都可以</p>
+<h3 id="3-2-Travis-CI部署博客"><a href="#3-2-Travis-CI部署博客" class="headerlink" title="3.2 Travis CI部署博客"></a>3.2 Travis CI部署博客</h3><ul>
+<li><a href="https://abelyang.blog.csdn.net/article/details/53574002?utm_medium=distribute.pc_relevant.none-task-blog-BlogCommendFromMachineLearnPai2-8.control&depth_1-utm_source=distribute.pc_relevant.none-task-blog-BlogCommendFromMachineLearnPai2-8.control">Hexo＋Travis-ci＋Github构建自动化博客</a></li>
+<li><a href="https://anran758.github.io/blog/2020/06/08/github-travis-build/">GitHub Token + Travis CI 自动部署项目应用</a></li>
+<li><a href="https://segmentfault.com/a/1190000004667156">GitHub SSH + Travis CI 自动部署项目应用</a></li>
+</ul>
+<h2 id="四、使用中遇到的问题"><a href="#四、使用中遇到的问题" class="headerlink" title="四、使用中遇到的问题"></a>四、使用中遇到的问题</h2><h3 id="4-1-Hexo-使用-Github-Actions-自动发布至-Github-Pages-时-生成的-html-页面空白-没有css-js等文件"><a href="#4-1-Hexo-使用-Github-Actions-自动发布至-Github-Pages-时-生成的-html-页面空白-没有css-js等文件" class="headerlink" title="4.1 Hexo 使用 Github Actions 自动发布至 Github Pages 时,生成的 html 页面空白,没有css/js等文件"></a>4.1 Hexo 使用 Github Actions 自动发布至 Github Pages 时,生成的 html 页面空白,没有css/js等文件</h3><ul>
+<li><p>原因: 由于主题是 git clone 下来的,主题目录下生成了 .git 目录,导致和 hexo 根目录下 .git 冲突了,commit 时没有把主题 push 上去导致的。<br>部署的博客发布</p>
+</li>
+<li><p>解决: 删除本地主题中的.git文件夹,上传到远程仓库</p>
+</li>
+</ul>
+<h3 id="4-2-解决hexo博客网页无法使用图片问题"><a href="#4-2-解决hexo博客网页无法使用图片问题" class="headerlink" title="4.2 解决hexo博客网页无法使用图片问题"></a>4.2 解决hexo博客网页无法使用图片问题</h3><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">npm install hexo-asset-image --save	# 安装hexo插件</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line"># 这里还要注意修改_config.yml中的一个点</span><br><span class="line">……</span><br><span class="line">post_asset_folder: true</span><br><span class="line">……</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">hexo new test		# 生成新的网页</span><br></pre></td></tr></table></figure>
+<p>位置在 test/source/_posts下，会同时生成test目录和test.md 网页，将需要的图片放置到test目录下，test.md就可以正常解析了，注意：要在图片路径直接写成同目录下即可。<br><img src="https://img2018.cnblogs.com/blog/1641240/201907/1641240-20190727161318355-1195792976.png" alt="image"></p>
+<h3 id="4-3-解决hexo博客乱码"><a href="#4-3-解决hexo博客乱码" class="headerlink" title="4.3 解决hexo博客乱码"></a>4.3 解决hexo博客乱码</h3><p><a href="https://www.dazhuanlan.com/2020/01/29/5e315f744541e/">好不容易解决无法访问的问题，结果打开网站是乱码？？？</a></p>
+<h3 id="4-4-hexo部署后，CNAME会被自动删除"><a href="#4-4-hexo部署后，CNAME会被自动删除" class="headerlink" title="4.4 hexo部署后，CNAME会被自动删除"></a>4.4 hexo部署后，CNAME会被自动删除</h3><p>解决: <a href="https://www.zhihu.com/question/28814437?sort=created">将需要上传至github的内容放在source文件夹，例如CNAME、favicon.ico、images等</a></p>
+<p>参考文档：</p>
+<ul>
+<li><a href="https://www.cnblogs.com/deppwang/p/12326906.html">使用 GitHub Actions 实现 Hexo 博客自动部署</a></li>
+<li><a href="https://www.cnblogs.com/somata/p/11255547.html">gitee+hexo搭建个人博客</a></li>
+<li><a href="https://www.v2ex.com/t/728048">Hexo 使用 Github Actions 自动发布至 Github Pages 时，生成的 html 页面空白</a></li>
+</ul>
+]]></content>
+      <tags>
+        <tag>Hexo</tag>
+        <tag>CICD</tag>
+        <tag>Next</tag>
+        <tag>Travis CI</tag>
+        <tag>GitHub Actions</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Mac常用软件技巧备份</title>
+    <url>/2017/04/21/Mac%E5%B8%B8%E7%94%A8%E8%BD%AF%E4%BB%B6%E6%8A%80%E5%B7%A7%E5%A4%87%E4%BB%BD/</url>
+    <content><![CDATA[<h2 id="一、Alfred-效率神器"><a href="#一、Alfred-效率神器" class="headerlink" title="一、Alfred(效率神器)"></a>一、Alfred(效率神器)</h2><p>1.web search配置</p>
+<ul>
+<li>百度：<a href="https://www.baidu.com/s?ie=utf-8&amp;f=8&amp;wd=%7Bquery%7D">https://www.baidu.com/s?ie=utf-8&amp;f=8&amp;wd={query}</a></li>
+<li>简书：<a href="http://www.jianshu.com/search?utf8=%E2%9C%93&amp;q=%7Bquery%7D">http://www.jianshu.com/search?utf8=%E2%9C%93&amp;q={query}</a></li>
+<li>淘宝：<a href="http://s.taobao.com/search?oe=utf-8&amp;f=8&amp;q=%7Bquery%7D">http://s.taobao.com/search?oe=utf-8&amp;f=8&amp;q={query}</a></li>
+<li>京东：<a href="http://search.360buy.com/Search?keyword=%7Bquery%7D&amp;enc=utf-8&amp;area=15">http://search.360buy.com/Search?keyword={query}&amp;enc=utf-8&amp;area=15</a></li>
+<li>微信文章：<a href="http://weixin.sogou.com/weixin?type=2&amp;query=%7Bquery%7D">http://weixin.sogou.com/weixin?type=2&amp;query={query}</a></li>
+<li>stackoverflow：<a href="http://www.stackoverflow.com/search?q=%7Bquery%7D">http://www.stackoverflow.com/search?q={query}</a></li>
+<li>github：<a href="https://github.com/search?utf8=%E2%9C%93&amp;q=%7Bquery%7D">https://github.com/search?utf8=%E2%9C%93&amp;q={query}</a></li>
+<li>maven：<a href="http://mvnrepository.com/search?q=%7Bquery%7D">http://mvnrepository.com/search?q={query}</a></li>
+<li>Android API Search：<a href="https://developer.android.com/reference/classes.html#q={query}">https://developer.android.com/reference/classes.html#q={query}</a></li>
+<li>iOS API Search：<a href="https://developer.apple.com/search/?q=%7Bquery%7D">https://developer.apple.com/search/?q={query}</a></li>
+</ul>
+<h2 id="二、Mac常用命令"><a href="#二、Mac常用命令" class="headerlink" title="二、Mac常用命令"></a>二、Mac常用命令</h2><ul>
+<li>此命令显示隐藏文件<pre><code>  defaults write com.apple.finder AppleShowAllFiles -bool true</code></pre>
+</li>
+<li>此命令关闭显示隐藏文件<pre><code>  defaults write com.apple.finder AppleShowAllFiles -bool false</code></pre>
+</li>
+</ul>
+]]></content>
+  </entry>
+  <entry>
+    <title>iOS调用三方地图实现导航及遇到的一些问题</title>
+    <url>/2017/04/12/iOS%E8%B0%83%E7%94%A8%E4%B8%89%E6%96%B9%E5%9C%B0%E5%9B%BE%E5%AE%9E%E7%8E%B0%E5%AF%BC%E8%88%AA%E5%8F%8A%E9%81%87%E5%88%B0%E7%9A%84%E4%B8%80%E4%BA%9B%E9%97%AE%E9%A2%98/</url>
+    <content><![CDATA[<p>公司业务需要,最近研究了一下地图导航.以下是在开发中的使用笔记以及遇到的一些问题记录.</p>
+<p>由于之前只做过一些简单的定位,导致现在一脸懵瞎,所以,只能慢慢的看文档了.</p>
+<p>根据各方面的初步了解,结合公司需求太高,小虾米的我就决定偷懒,不接入三方了,直接跳到本地地图应用中去,然后你爱怎么用怎么用,喜欢哪个地图就用那个.</p>
+<hr>
+<p>好了,不扯淡了,进入正题:<br><strong>一、找到需要设置的地图的URL Scheme，配置plist文件</strong><br>一些常用的地图的URL Scheme以及他们的官方字段说明链接:</p>
+<blockquote>
+<p>百度地图: baidumap://<br>Google地图: comgooglemaps-x-callback:// 或者 comgooglemaps://<br><a href="http://lbs.qq.com/uri_v1/guide-route.html">腾讯地图</a>: qqmap://<br>高德地图: iosamap://<br><a href="https://developer.apple.com/library/content/featuredarticles/iPhoneURLScheme_Reference/MapLinks/MapLinks.html">苹果自带地图</a>: baidumap://</p>
+</blockquote>
+<p><strong>二、检查目标地图应用在手机上有没有安装</strong><br>使用下面的方法判断你是否安装了某个URL Scheme为appurlscheme的APP</p>
+<blockquote>
+<p>//该方法返回一个布尔值,若为真,则该应用在我们手机上已经安装<br>[[UIApplication sharedApplication] canOpenURL:[NSURL URLWithString:@”appurlscheme://“]</p>
+</blockquote>
+<p>示例:</p>
+<blockquote>
+<p>//接下来弹出框的按钮文字的数组<br>        NSMutableArray *array = [NSMutableArray array];<br>            if ([[UIApplication sharedApplication] canOpenURL:[NSURL URLWithString:@”iosamap://“]]) {<br>                [array addObject:@”高德地图”];<br>            }<br>            if ([[UIApplication sharedApplication] canOpenURL:[NSURL URLWithString:@”comgooglemaps://“]]) {<br>                [array addObject:@”Google地图”];<br>            }<br>            if ([[UIApplication sharedApplication] canOpenURL:[NSURL URLWithString:@”baidumap://“]]) {<br>                [array addObject:@”百度地图”];<br>            }<br>            if ([[UIApplication sharedApplication] canOpenURL:[NSURL URLWithString:@”qqmap://“]]) {<br>                [array addObject:@”腾讯地图”];<br>            }<br>            //默认苹果自带地图和取消按钮<br>            [array addObjectsFromArray:@[@”苹果地图”,@”取消”]];</p>
+</blockquote>
+<p><strong>三、配置你想要的弹出框样式</strong><br>弹框样式各有所爱,这里给以个简单的样式,根据之前检测的按钮数组个数添加<br><img src="https://github.com/BlackChen/AllImages/blob/master/Markdown_Images/0087DA4144B99DC15E2BB096381A4A2B.png?raw=true"></p>
+<p><strong>四、跳转到目标地图</strong><br>点击对应的地图时,我们需要通过以下方法转场到对应的地图APP</p>
+<blockquote>
+<p>//appurlscheme:应用URL Scheme<br>//parameter:各个参数,下面的示例为基本配置,如需要更多,则请参考对应的官方文档字段说明<br>NSString *urlString = [[NSString stringWithFormat:@”appurlscheme://parameter] stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];<br>   [[UIApplication sharedApplication] openURL:[NSURL URLWithString:urlString]];</p>
+</blockquote>
+<p>   示例:</p>
+<blockquote>
+<p>CLLocationCoordinate2D trans = CLLocationCoordinate2DMake(39.90868, 116.3956);//假如我们要去这个坐标<br>[self presentViewController:[BCAlertView presentAlertWithTitle:@”” message:@”请选择地图” actionTitles:array preferredStyle:UIAlertControllerStyleActionSheet handler:^(NSUInteger buttonIndex, NSString * _Nonnull buttonTitle) {<br>                [MBProgressHUD showHUDAddTo:self.ViewController Text:buttonTitle animated:YES mode:MBProgressHUDModeText after:2];<br>                if ([buttonTitle isEqualToString:@”高德地图”]) {// ok GCJ-02<br>//                    sourceApplication=%@&amp;backScheme=%@<br>//                    sourceApplication代表你自己APP的名称 会在之后跳回的时候显示出来 所以必须填写 backScheme是你APP的URL Scheme 不填是跳不回来的哟<br>//                    dev=0<br>//                    这里填0就行了 跟上面的gcj02一个意思 1代表wgs84 也用不上<br>                    NSString *urlString = [[NSString stringWithFormat:@”iosamap://navi?sourceApplication=%@&amp;backScheme=%@&amp;lat=%f&amp;lon=%f&amp;dev=0&amp;style=2”,@”球猿”,@”BasketballApp://“,trans.latitude, trans.longitude] stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];<br>      [[UIApplication sharedApplication] openURL:[NSURL URLWithString:urlString]];<br>                }else if([buttonTitle isEqualToString:@”Google地图”]){// 坐标转换,位置不准 GCJ-02<br>//                    x-source=%@&amp;x-success=%@<br>//                    跟高德一样 这里分别代表APP的名称和URL Scheme<br>//                    saddr=<br>//                    这里留空则表示从当前位置触发<br>                    NSString *urlString = [[NSString stringWithFormat:@”comgooglemaps-x-callback://?x-source=%@&amp;x-success=%@?resume=true&amp;daddr=%@&amp;center=%f,%f”,@”球猿”,@”BasketballApp://“, _locationName, gpsCoor.latitude, gpsCoor.longitude] stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];<br>    [[UIApplication sharedApplication] openURL:[NSURL URLWithString:urlString]];<br>                }else if([buttonTitle isEqualToString:@”百度地图”]){//ok BD-09<br>//                    origin=<br>//                    这个是不能被修改的 不然无法把出发位置设置为当前位置<br>//                    destination=latlng:%f,%f|name=目的地<br>//                    name=XXXX name这个字段不能省略 否则导航会失败 而后面的文字则可以随便填<br>//                    coord_type=gcj02<br>//                    coord_type允许的值为bd09ll、gcj02、wgs84 如果你APP的地图SDK用的是百度地图SDK 请填bd09ll 否则 就填gcj02 wgs84你基本是用不上了(关于地图加密这里也不多谈 请自行学习)<br>                    NSString *urlString = [[NSString stringWithFormat:@”baidumap://map/direction?origin=&amp;destination=latlng:%f,%f|name=%@&amp;mode=driving&amp;coord_type=bd09ll”,_coordinatePoit.latitude, _coordinatePoit.longitude, _locationName] stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];<br>                      [[UIApplication sharedApplication] openURL:[NSURL URLWithString:urlString]];<br>                }else if([buttonTitle isEqualToString:@”腾讯地图”]){//<a href="http://lbs.qq.com/uri_v1/guide-route.html">http://lbs.qq.com/uri_v1/guide-route.html</a><br> NSString *urlString = [[NSString stringWithFormat:@”qqmap://map/routeplan?referer=%@&amp;type=drive&amp;from=我的位置&amp;to=%@&amp;tocoord=%f,%f&amp;coord_type=1&amp;policy=0”,@”球猿”,_locationName, trans.latitude, trans.longitude] stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];<br>  [[UIApplication sharedApplication] openURL:[NSURL URLWithString:urlString]];<br>                }else if([buttonTitle isEqualToString:@”苹果地图”]){//<a href="https://developer.apple.com/library/content/featuredarticles/iPhoneURLScheme_Reference/MapLinks/MapLinks.html">https://developer.apple.com/library/content/featuredarticles/iPhoneURLScheme_Reference/MapLinks/MapLinks.html</a><br>                    MKMapItem *currentLocation = [MKMapItem mapItemForCurrentLocation];<br> MKMapItem *toLocation = [[MKMapItem alloc] initWithPlacemark:[[MKPlacemark alloc] initWithCoordinate:CLLocationCoordinate2DMake(trans.latitude, trans.longitude) addressDictionary:nil]];<br>    toLocation.name = _locationName;<br>[MKMapItem openMapsWithItems:@[currentLocation, toLocation]                         launchOptions:@{MKLaunchOptionsDirectionsModeKey: MKLaunchOptionsDirectionsModeDriving,<br>                                                   MKLaunchOptionsShowsTrafficKey: [NSNumber numberWithBool:YES]}];<br>                }<br>            }] animated:YES completion:^{<br>            }];</p>
+</blockquote>
+<p><strong>五、回到自己的应用</strong><br>这个问题我暂时不知道怎么弄,目前还只有通过进入地图后的左上角,我们应用名称点击返回<br><strong>六、一些延展</strong><br>到这里基本跳转应该没有问题了,下面是一些功能扩展:</p>
+<p>1、地图坐标转换</p>
+<p>小伙伴们是否发现了一个问题:我么既然做地图导航,那么目的就很简单,最重要的是要让我们的客户精确的定位到目的地,到西安路尽可能近,尽可能节省时间,是吧?</p>
+<p>然而,经过上面的配置后,如果你用的是百度地图的坐标,那么在高德,Google,腾讯以及苹果自带地图上面,地图位置是不是和我们标记或者预想的相差好几条街,有米有?</p>
+<p>所以,强烈建议小伙伴们查看一下下面的文章,普及一下知识:<br><a href="http://www.jianshu.com/p/abdb35b0ba78">坐标转换知识详解</a></p>
+<p>下面附上我的坐标转换代码(本人用的是百度地图,目前转Google地图还不太精确,有知道的小伙伴请告知^_^)</p>
+<p>备注:不知道是从哪位大神哪搬来的,找不到原文地址了,如果侵权,请联系(qq:1414925741),谢谢.</p>
+<p>.h文件</p>
+<blockquote>
+</blockquote>
+<p>//  Created by Black_Chen_ on 2017/4/12.<br>//  Copyright © 2017年 BlackChen. All rights reserved.<br>//<br> #import &lt;Foundation/Foundation.h&gt;<br>@interface BCLocationTransform : NSObject<br>@property (nonatomic, assign) double latitude;<br>@property (nonatomic, assign) double longitude;<br>-(id)initWithLatitude:(double)latitude andLongitude:(double)longitude;<br>/*<br> 坐标系：<br> WGS-84：是国际标准，GPS坐标（Google Earth使用、或者GPS模块）<br> GCJ-02：中国坐标偏移标准，Google Map、高德、腾讯使用<br> BD-09 ：百度坐标偏移标准，Baidu Map使用<br> */<br>// 从GPS坐标转化到高德坐标<br> -(id)transformFromGPSToGD;<br>// 从高德坐标转化到百度坐标<br> -(id)transformFromGDToBD;<br>// 从百度坐标到高德坐标<br> -(id)transformFromBDToGD;<br>//从高德坐标到GPS坐标<br> -(id)transformFromGDToGPS;<br>// 从百度坐标到GPS坐标<br> -(id)transformFromBDToGPS;<br>@end</p>
+<hr>
+<p>.m文件</p>
+<blockquote>
+</blockquote>
+<p>//  Created by Black_Chen_ on 2017/4/12.<br>//  Copyright © 2017年 BlackChen. All rights reserved.<br> #import “BCLocationTransform.h”<br> #import &lt;CoreLocation/CoreLocation.h&gt;<br>static const double a = 6378245.0;<br>static const double ee = 0.00669342162296594323;<br>static const double pi = M_PI;<br>static const double xPi = M_PI  * 3000.0 / 180.0;<br>@implementation BCLocationTransform<br>-(id)initWithLatitude:(double)latitude andLongitude:(double)longitude {<br>    if (self = [super init]) {<br>        self.latitude = latitude;<br>        self.longitude = longitude;<br>    }<br>    return self;<br>}<br>-(id)transformFromGPSToGD {<br>    CLLocationCoordinate2D coor = [BCLocationTransform transformFromWGSToGCJ:CLLocationCoordinate2DMake(self.latitude, self.longitude)];<br>    return [[BCLocationTransform alloc] initWithLatitude:coor.latitude andLongitude:coor.longitude];<br>}<br>-(id)transformFromGDToBD {<br>    CLLocationCoordinate2D coor = [BCLocationTransform transformFromGCJToBaidu:CLLocationCoordinate2DMake(self.latitude, self.longitude)];<br>    return [[BCLocationTransform alloc] initWithLatitude:coor.latitude andLongitude:coor.longitude];<br>}<br>-(id)transformFromBDToGD {<br>    CLLocationCoordinate2D coor = [BCLocationTransform transformFromBaiduToGCJ:CLLocationCoordinate2DMake(self.latitude, self.longitude)];<br>    return [[BCLocationTransform alloc] initWithLatitude:coor.latitude andLongitude:coor.longitude];<br>}<br>-(id)transformFromGDToGPS {<br>    CLLocationCoordinate2D coor = [BCLocationTransform transformFromGCJToWGS:CLLocationCoordinate2DMake(self.latitude, self.longitude)];<br>    return [[BCLocationTransform alloc] initWithLatitude:coor.latitude andLongitude:coor.longitude];<br>}<br>-(id)transformFromBDToGPS {<br>    //先把百度转化为高德<br>    CLLocationCoordinate2D start_coor = [BCLocationTransform transformFromBaiduToGCJ:CLLocationCoordinate2DMake(self.latitude, self.longitude)];<br>    CLLocationCoordinate2D end_coor = [BCLocationTransform transformFromGCJToWGS:CLLocationCoordinate2DMake(start_coor.latitude, start_coor.longitude)];<br>    return [[BCLocationTransform alloc] initWithLatitude:end_coor.latitude andLongitude:end_coor.longitude];<br>}<br>+(CLLocationCoordinate2D)transformFromWGSToGCJ:(CLLocationCoordinate2D)wgsLoc {<br>    CLLocationCoordinate2D adjustLoc;<br>    if([self isLocationOutOfChina:wgsLoc]) {<br>        adjustLoc = wgsLoc;<br>    }<br>    else {<br>        double adjustLat = [self transformLatWithX:wgsLoc.longitude - 105.0 withY:wgsLoc.latitude - 35.0];<br>        double adjustLon = [self transformLonWithX:wgsLoc.longitude - 105.0 withY:wgsLoc.latitude - 35.0];<br>        long double radLat = wgsLoc.latitude / 180.0 * pi;<br>        long double magic = sin(radLat);<br>        magic = 1 - ee * magic * magic;<br>        long double sqrtMagic = sqrt(magic);<br>        adjustLat = (adjustLat * 180.0) / ((a * (1 - ee)) / (magic * sqrtMagic) * pi);<br>        adjustLon = (adjustLon * 180.0) / (a / sqrtMagic * cos(radLat) * pi);<br>        adjustLoc.latitude = wgsLoc.latitude + adjustLat;<br>        adjustLoc.longitude = wgsLoc.longitude + adjustLon;<br>    }<br>    return adjustLoc;<br>}<br> +(double)transformLatWithX:(double)x withY:(double)y {<br>    double lat = -100.0 + 2.0 * x + 3.0 * y + 0.2 * y * y + 0.1 * x * y + 0.2 * sqrt(fabs(x));<br>    lat += (20.0 * sin(6.0 * x * pi) + 20.0 *sin(2.0 * x * pi)) * 2.0 / 3.0;<br>    lat += (20.0 * sin(y * pi) + 40.0 * sin(y / 3.0 * pi)) * 2.0 / 3.0;<br>    lat += (160.0 * sin(y / 12.0 * pi) + 320 * sin(y * pi / 30.0)) * 2.0 / 3.0;<br>    return lat;<br>}<br> +(double)transformLonWithX:(double)x withY:(double)y {<br>    double lon = 300.0 + x + 2.0 * y + 0.1 * x * x + 0.1 * x * y + 0.1 * sqrt(fabs(x));<br>    lon += (20.0 * sin(6.0 * x * pi) + 20.0 * sin(2.0 * x * pi)) * 2.0 / 3.0;<br>    lon += (20.0 * sin(x * pi) + 40.0 * sin(x / 3.0 * pi)) * 2.0 / 3.0;<br>    lon += (150.0 * sin(x / 12.0 * pi) + 300.0 * sin(x / 30.0 * pi)) * 2.0 / 3.0;<br>    return lon;<br>}<br> +(CLLocationCoordinate2D)transformFromGCJToBaidu:(CLLocationCoordinate2D)p {<br>    long double z = sqrt(p.longitude * p.longitude + p.latitude * p.latitude) + 0.00002 * sqrt(p.latitude * pi);<br>    long double theta = atan2(p.latitude, p.longitude) + 0.000003 * cos(p.longitude * pi);<br>    CLLocationCoordinate2D geoPoint;<br>    geoPoint.latitude  = (z * sin(theta) + 0.006);<br>    geoPoint.longitude = (z * cos(theta) + 0.0065);<br>    return geoPoint;<br>}<br> +(CLLocationCoordinate2D)transformFromBaiduToGCJ:(CLLocationCoordinate2D)p {<br>    double x = p.longitude - 0.0065, y = p.latitude - 0.006;<br>    double z = sqrt(x * x + y * y) - 0.00002 * sin(y * xPi);<br>    double theta = atan2(y, x) - 0.000003 * cos(x * xPi);<br>    CLLocationCoordinate2D geoPoint;<br>    geoPoint.latitude  = z * sin(theta);<br>    geoPoint.longitude = z * cos(theta);<br>    return geoPoint;<br>}<br>+(CLLocationCoordinate2D)transformFromGCJToWGS:(CLLocationCoordinate2D)p {<br>    double threshold = 0.00001;<br>    // The boundary<br>    double minLat = p.latitude - 0.5;<br>    double maxLat = p.latitude + 0.5;<br>    double minLng = p.longitude - 0.5;<br>    double maxLng = p.longitude + 0.5;<br>    double delta = 1;<br>    int maxIteration = 30;<br>    // Binary search<br>    while(true) {<br>        CLLocationCoordinate2D leftBottom  = [[self class] transformFromWGSToGCJ:(CLLocationCoordinate2D){.latitude = minLat,.longitude = minLng}];<br>        CLLocationCoordinate2D rightBottom = [[self class] transformFromWGSToGCJ:(CLLocationCoordinate2D){.latitude = minLat,.longitude = maxLng}];<br>        CLLocationCoordinate2D leftUp      = [[self class] transformFromWGSToGCJ:(CLLocationCoordinate2D){.latitude = maxLat,.longitude = minLng}];<br>        CLLocationCoordinate2D midPoint    = [[self class] transformFromWGSToGCJ:(CLLocationCoordinate2D){.latitude = ((minLat + maxLat) / 2),.longitude = ((minLng + maxLng) / 2)}];<br>        delta = fabs(midPoint.latitude - p.latitude) + fabs(midPoint.longitude - p.longitude);<br>        if(maxIteration– &lt;= 0 || delta &lt;= threshold) {<br>            return (CLLocationCoordinate2D){.latitude = ((minLat + maxLat) / 2),.longitude = ((minLng + maxLng) / 2)};<br>        }<br>        if(isContains(p, leftBottom, midPoint)) {<br>            maxLat = (minLat + maxLat) / 2;<br>            maxLng = (minLng + maxLng) / 2;<br>        } else if(isContains(p, rightBottom, midPoint)) {<br>            maxLat = (minLat + maxLat) / 2;<br>            minLng = (minLng + maxLng) / 2;<br>        } else if(isContains(p, leftUp, midPoint)) {<br>            minLat = (minLat + maxLat) / 2;<br>            maxLng = (minLng + maxLng) / 2;<br>        } else {<br>            minLat = (minLat + maxLat) / 2;<br>            minLng = (minLng + maxLng) / 2;<br>        }<br>    }<br>}<br> #pragma mark - 判断某个点point是否在p1和p2之间<br>static bool isContains(CLLocationCoordinate2D point, CLLocationCoordinate2D p1, CLLocationCoordinate2D p2) {<br>    return (point.latitude &gt;= MIN(p1.latitude, p2.latitude) &amp;&amp; point.latitude &lt;= MAX(p1.latitude, p2.latitude)) &amp;&amp; (point.longitude &gt;= MIN(p1.longitude,p2.longitude) &amp;&amp; point.longitude &lt;= MAX(p1.longitude, p2.longitude));<br>}<br> #pragma mark - 判断是不是在中国<br>+(BOOL)isLocationOutOfChina:(CLLocationCoordinate2D)location {<br>    if (location.longitude &lt; 72.004 || location.longitude &gt; 137.8347 || location.latitude &lt; 0.8293 || location.latitude &gt; 55.8271)<br>        return YES;<br>    return NO;<br>}<br>@end</p>
+<hr>
+<p>使用:</p>
+<blockquote>
+<p>//初始化坐标<br>BCLocationTransform *trans = [[BCLocationTransform alloc]initWithLatitude:_coordinatePoit.latitude andLongitude:_coordinatePoit.longitude];<br>//转换坐标<br>trans = [trans transformFromBDToGD];            </p>
+</blockquote>
+<p><strong>七、留下来的问题</strong><br>//TODO:待添加</p>
+<h4 id="sdasdnaksdjk"><a href="#sdasdnaksdjk" class="headerlink" title="sdasdnaksdjk"></a>sdasdnaksdjk</h4><p><img src="https://github.com/BlackChen/BlackChen.github.io/blob/master/2017/04/12/iOS%E8%B0%83%E7%94%A8%E4%B8%89%E6%96%B9%E5%9C%B0%E5%9B%BE%E5%AE%9E%E7%8E%B0%E5%AF%BC%E8%88%AA%E5%8F%8A%E9%81%87%E5%88%B0%E7%9A%84%E4%B8%80%E4%BA%9B%E9%97%AE%E9%A2%98/%E5%B1%8F%E5%B9%95%E5%BF%AB%E7%85%A7%202017-04-12%20%E4%B8%8B%E5%8D%885.15.51.png?raw=true" alt="图片问价"></p>
+]]></content>
+      <tags>
+        <tag>地图导航,百度地图,Google地图,腾讯地图,高德地图,苹果自带地图</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>真机调试错误集锦</title>
+    <url>/2016/10/24/%E7%9C%9F%E6%9C%BA%E8%B0%83%E8%AF%95%E9%94%99%E8%AF%AF%E9%9B%86%E9%94%A6/</url>
+    <content><![CDATA[<h2 id="Xcode问题"><a href="#Xcode问题" class="headerlink" title="Xcode问题"></a>Xcode问题</h2><h3 id="Xcode8-一敲代码就崩溃"><a href="#Xcode8-一敲代码就崩溃" class="headerlink" title="Xcode8 一敲代码就崩溃"></a>Xcode8 一敲代码就崩溃</h3><ul>
+<li>问题描述:装了两Xcode,一个装了插件,一个正式版,正式版启动时点击了load bundles,打开工程,一输入代码就崩溃</li>
+<li>解决方式:插件惹的祸。在终端输入<pre><code>defaults delete com.apple.dt.Xcode DVTPlugInManagerNonApplePlugIns-Xcode-8.0</code></pre>
+  重装打开Xcoden 点skip bundle</li>
+</ul>
+<h3 id="Xcode升级-真机测试"><a href="#Xcode升级-真机测试" class="headerlink" title="Xcode升级,真机测试"></a>Xcode升级,真机测试</h3><h4 id="1-invalid-device-state"><a href="#1-invalid-device-state" class="headerlink" title="1.invalid device state"></a>1.invalid device state</h4><ul>
+<li>问题描述:刚刚升级完xcode，模拟器运行项目报错Invalid device state。<br><img src="http://ww3.sinaimg.cn/large/65e4f1e6gw1f870kpv27bj20re08ydgj.jpg" alt="invalid device state"></li>
+<li>解决方式:<pre><code>    1).卸载重装Xcode
+    2).重启电脑/重启Xcode/重启模拟器
+    3).更换一个模拟器运行</code></pre>
+</li>
+</ul>
+<h4 id="2-Could-not-find-Developer-Disk-Image"><a href="#2-Could-not-find-Developer-Disk-Image" class="headerlink" title="2.Could not find Developer Disk Image"></a>2.Could not find Developer Disk Image</h4><ul>
+<li>问题描述:刚刚升级完xcode 7，模拟器运行项目报错Invalid device state。</li>
+<li>解决方式:Xcode当前版本不支持iOS9.1，只好先更新Xcode</li>
+</ul>
+]]></content>
+      <tags>
+        <tag>真机调试</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>那些不经意间的坑</title>
+    <url>/2016/09/26/%E9%82%A3%E4%BA%9B%E4%B8%8D%E7%BB%8F%E6%84%8F%E9%97%B4%E7%9A%84%E5%9D%91/</url>
+    <content><![CDATA[<p>##</p>
+<h2 id="真机测试"><a href="#真机测试" class="headerlink" title="真机测试"></a>真机测试</h2><h3 id="一、调试错误"><a href="#一、调试错误" class="headerlink" title="一、调试错误"></a>一、调试错误</h3><h4 id="1-CUICatalog-Invalid-asset-name-supplied"><a href="#1-CUICatalog-Invalid-asset-name-supplied" class="headerlink" title="1.CUICatalog: Invalid asset name supplied:"></a>1.CUICatalog: Invalid asset name supplied:</h4><p>  问题描述：今天写了加载图片，默认图片写的是[UIImage imageNamed:@””]，之后就报下面的错误,这个提示的意思是说你用了这个方法</p>
+<p>  解决方式:<br>      1).在项目中搜索UIImage imageNamed:,然后打印看看所谓的name是否为空。找到后替换。<br>      2).添加一个系统断点，来判断如果图片名字为nil或者@””的时候,来拦截掉。<br>      <img src="http://img.blog.csdn.net/20160910101102224?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQv/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/Center"><br>  参考地址:<a href="http://blog.csdn.net/qq_19979539/article/details/52493194">http://blog.csdn.net/qq_19979539/article/details/52493194</a></p>
+]]></content>
+      <tags>
+        <tag>iOS开发，错误集锦</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>AFNetWorking3.x使用</title>
+    <url>/2016/09/13/AFNetWorking3-x%E4%BD%BF%E7%94%A8/</url>
+    <content><![CDATA[<h1 id="普通使用"><a href="#普通使用" class="headerlink" title="普通使用"></a>普通使用</h1><h2 id="1-普通GET请求"><a href="#1-普通GET请求" class="headerlink" title="1.普通GET请求"></a>1.普通GET请求</h2><h3 id="代码"><a href="#代码" class="headerlink" title="代码"></a>代码</h3><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">&#x2F;&#x2F; 创建网络请求管理对象</span><br><span class="line">    AFHTTPSessionManager *manager &#x3D; [AFHTTPSessionManager manager];</span><br><span class="line">&#x2F;&#x2F; 申明返回的结果是json类型</span><br><span class="line">    manager.responseSerializer &#x3D; [AFJSONResponseSerializer serializer];</span><br><span class="line">&#x2F;&#x2F; 申明请求的数据是json类型</span><br><span class="line">    manager.requestSerializer &#x3D; [AFJSONRequestSerializer serializer];</span><br><span class="line">&#x2F;&#x2F; 如果报接受类型不一致请替换一致text&#x2F;html或别的</span><br><span class="line">    manager.responseSerializer.acceptableContentTypes &#x3D; [NSSet setWithObjects:@&quot;text&#x2F;html&quot;, nil];</span><br><span class="line">&#x2F;&#x2F; 普通GET请求</span><br><span class="line">    [manager GET:&lt;#URLString#&gt; parameters:nil progress:^(NSProgress * _Nonnull downloadProgress) &#123;</span><br><span class="line"></span><br><span class="line">    &#125; success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) &#123;</span><br><span class="line">        DLog(@&quot;请求成功：%@&quot;, responseObject);</span><br><span class="line">    &#125; failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) &#123;</span><br><span class="line">        DLog(@&quot;请求失败：%@&quot;, error);</span><br><span class="line">    &#125;];</span><br></pre></td></tr></table></figure>
+
+<h2 id="2-带参数GET请求"><a href="#2-带参数GET请求" class="headerlink" title="2.带参数GET请求"></a>2.带参数GET请求</h2><h3 id="代码-1"><a href="#代码-1" class="headerlink" title="代码"></a>代码</h3><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line"></span><br><span class="line">&#x2F;&#x2F; 参数字典</span><br><span class="line">    NSDictionary _dict &#x3D; [NSDictionary   dictionaryWithObjectsAndKeys:&lt;#(nonnull id), ...#&gt;, nil];</span><br><span class="line">&#x2F;&#x2F; 创建网络请求管理对象</span><br><span class="line">    AFHTTPSessionManager_ manager &#x3D; [AFHTTPSessionManager manager];</span><br><span class="line">&#x2F;&#x2F; 申明返回的结果是json类型</span><br><span class="line">    manager.responseSerializer &#x3D; [AFJSONResponseSerializer serializer];</span><br><span class="line">&#x2F;&#x2F; 申明请求的数据是json类型</span><br><span class="line">    manager.requestSerializer &#x3D; [AFJSONRequestSerializer serializer];</span><br><span class="line">&#x2F;&#x2F; 如果报接受类型不一致请替换一致text&#x2F;html或别的   </span><br><span class="line">    manager.responseSerializer.acceptableContentTypes &#x3D; [NSSet setWithObjects:@&quot;text&#x2F;html&quot;, nil];</span><br><span class="line">&#x2F;&#x2F; 带参数GET请求</span><br><span class="line">    [manager GET:&lt;#URLString#&gt; parameters:dict progress:^(NSProgress * _Nonnull downloadProgress) &#123;</span><br><span class="line"></span><br><span class="line">      &#125; success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) &#123;</span><br><span class="line">        DLog(@&quot;请求成功：%@&quot;, responseObject);</span><br><span class="line">    &#125; failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) &#123;</span><br><span class="line">        DLog(@&quot;请求失败：%@&quot;, error);</span><br><span class="line">    &#125;];</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<h3 id="3-普通POST请求"><a href="#3-普通POST请求" class="headerlink" title="3.普通POST请求"></a>3.普通POST请求</h3><h4 id="代码-2"><a href="#代码-2" class="headerlink" title="代码"></a>代码</h4><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">&#x2F;&#x2F; 创建网络请求管理对象</span><br><span class="line">    AFHTTPSessionManager *manager &#x3D; [AFHTTPSessionManager manager];</span><br><span class="line">&#x2F;&#x2F; 申明返回的结果是json类型</span><br><span class="line">    manager.responseSerializer &#x3D; [AFJSONResponseSerializer serializer];    </span><br><span class="line">&#x2F;&#x2F; 申明请求的数据是json类型</span><br><span class="line">    manager.requestSerializer &#x3D; [AFJSONRequestSerializer serializer];</span><br><span class="line">&#x2F;&#x2F; 如果报接受类型不一致请替换一致text&#x2F;html或别的</span><br><span class="line">    manager.responseSerializer.acceptableContentTypes &#x3D; [NSSet setWithObjects:@&quot;text&#x2F;html&quot;, nil];</span><br><span class="line">&#x2F;&#x2F; 普通POST请求</span><br><span class="line">    [manager POST:&lt;#URLString#&gt; parameters:nil progress:^(NSProgress * _Nonnull uploadProgress) &#123;</span><br><span class="line"></span><br><span class="line">    &#125; success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) &#123;</span><br><span class="line">        DLog(@&quot;请求成功：%@&quot;, responseObject);</span><br><span class="line">    &#125; failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) &#123;</span><br><span class="line">        DLog(@&quot;请求失败：%@&quot;, error);</span><br><span class="line">    &#125;];</span><br></pre></td></tr></table></figure>
+
+<h2 id="4-带参数POST请求"><a href="#4-带参数POST请求" class="headerlink" title="4.带参数POST请求"></a>4.带参数POST请求</h2><h3 id="代码-3"><a href="#代码-3" class="headerlink" title="代码"></a>代码</h3><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">&#x2F;&#x2F; 参数字典的</span><br><span class="line">    NSDictionary _dict &#x3D; [NSDictionary dictionaryWithObjectsAndKeys:&lt;#(nonnull id), ...#&gt;, nil];</span><br><span class="line">&#x2F;&#x2F; 创建网络请求管理对象</span><br><span class="line">    AFHTTPSessionManager_ manager &#x3D; [AFHTTPSessionManager manager];</span><br><span class="line">&#x2F;&#x2F; 申明返回的结果是json类型</span><br><span class="line">    manager.responseSerializer &#x3D; [AFJSONResponseSerializer serializer];</span><br><span class="line">&#x2F;&#x2F; 申明请求的数据是json类型</span><br><span class="line">    manager.requestSerializer &#x3D; [AFJSONRequestSerializer serializer];</span><br><span class="line">&#x2F;&#x2F; 如果报接受类型不一致请替换一致text&#x2F;html或别的</span><br><span class="line">    manager.responseSerializer.acceptableContentTypes &#x3D; [NSSet setWithObjects:@&quot;text&#x2F;html&quot;, nil];</span><br><span class="line">&#x2F;&#x2F; 带参数POST请求</span><br><span class="line">    [manager POST:&lt;#URLString#&gt; parameters:dict progress:^(NSProgress * _Nonnull uploadProgress) &#123;</span><br><span class="line"></span><br><span class="line">      &#125; success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) &#123;</span><br><span class="line">    DLog(@&quot;请求成功：%@&quot;, responseObject);</span><br><span class="line">    &#125; failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) &#123;</span><br><span class="line">    DLog(@&quot;请求失败：%@&quot;, error);</span><br><span class="line">    &#125;];</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<h1 id="封装使用"><a href="#封装使用" class="headerlink" title="封装使用"></a>封装使用</h1><p><img src="http://ww2.sinaimg.cn/large/65e4f1e6gw1f7m9bwwe7lj20u01hcwki.jpg"></p>
+]]></content>
+      <tags>
+        <tag>AFNetWorking3.x</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>CocoaPods使用过程中遇到的坑</title>
+    <url>/2016/09/12/CocoaPods%E4%BD%BF%E7%94%A8%E8%BF%87%E7%A8%8B%E4%B8%AD%E9%81%87%E5%88%B0%E7%9A%84%E5%9D%91/</url>
+    <content><![CDATA[<h2 id="一-安装"><a href="#一-安装" class="headerlink" title="一.安装"></a>一.安装</h2><h2 id="二-使用"><a href="#二-使用" class="headerlink" title="二.使用"></a>二.使用</h2><h3 id="1-Setting-up-CocoaPods-master-repo-卡着不动"><a href="#1-Setting-up-CocoaPods-master-repo-卡着不动" class="headerlink" title="1.Setting up CocoaPods master repo 卡着不动"></a>1.Setting up CocoaPods master repo 卡着不动</h3><p>  那是因为 淘宝的那个镜像(<a href="https://ruby.taobao.org/">https://ruby.taobao.org/</a> )已经不可用了。所以我们现在用最新支持的ruby镜像(<a href="https://gems.ruby-china.org/">https://gems.ruby-china.org/</a>)<br>  需要的命令行：</p>
+<p>  $ gem sources -r <a href="https://rubygems.org/">https://rubygems.org/</a> （移除旧版本的镜像，如果你不知道你电脑上目前用的是什么镜像，可用  $ gem sources -l  来查看）<br>  $ gem sources -a <a href="https://gems.ruby-china.org/">https://gems.ruby-china.org/</a> （增加可用的镜像）<br>  $ gem sources -l  （用来检查使用替换镜像位置成功）</p>
+<p>  当pod setup 进入Setting up CocoaPods master repo 等待的时候表示正在下载了，此时你可通过新开一个终端窗口，输入”cd ~/.cocoapods/“命令行跳到cocoapods文件夹内，执行”du -sh <em>“ 查看正在下载的文件夹的大小</em></p>
+<h3 id="2-An-error-occurred-while-performing-git-pull-on-repo-master-和-usr-bin-git-pull-–ff-only"><a href="#2-An-error-occurred-while-performing-git-pull-on-repo-master-和-usr-bin-git-pull-–ff-only" class="headerlink" title="2.[!] An error occurred while performing git pull on repo master. 和[!] /usr/bin/git pull –ff-only"></a>2.[!] An error occurred while performing <code>git pull</code> on repo <code>master</code>. 和[!] /usr/bin/git pull –ff-only</h3><p>  这个错误应该是说这个节点有问题。就又找资料，然后试试把cocoapods的节点删除，重新添加一个节点，或许就行，说干就干：<br>  原因： Cocoapods的分支不支持当前最新的Xcode版本</p>
+<p>  解决办法: 删除master分支 重新建立新的分支</p>
+<p>  sudo rm -fr ~/.cocoapods/repos/master</p>
+<p>  然后再: pod setup</p>
+<h2 id="三-卸载"><a href="#三-卸载" class="headerlink" title="三.卸载"></a>三.卸载</h2>]]></content>
+  </entry>
+  <entry>
+    <title>首次发布</title>
+    <url>/2016/08/09/%E9%A6%96%E6%AC%A1%E5%8F%91%E5%B8%83/</url>
+    <content><![CDATA[<h1 id="测试"><a href="#测试" class="headerlink" title="测试"></a>测试</h1><h2 id="1-音乐"><a href="#1-音乐" class="headerlink" title="1 音乐"></a>1 音乐</h2><iframe frameborder="no" border="0" marginwidth="0" marginheight="0" width="298" height="52" src="http://music.163.com/outchain/player?type=2&amp;id=3219236&amp;auto=1&amp;height=32">
+</iframe>
+
+
+
+<p> <img src="http://blog.best-developer.cn/img/avatar.png" alt="头像"></p>
+<h2 id="BUG"><a href="#BUG" class="headerlink" title="BUG"></a>BUG</h2><h3 id="1-那里错了呢"><a href="#1-那里错了呢" class="headerlink" title="1.那里错了呢?"></a>1.那里错了呢?</h3><h4 id="答：域名冲突了"><a href="#答：域名冲突了" class="headerlink" title="答：域名冲突了"></a>答：域名冲突了</h4>]]></content>
+  </entry>
+</search>
